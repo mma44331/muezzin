@@ -3,13 +3,16 @@ version: "3.8"
 services:
 
   service_a:
-    build: ./Service_a
+    build:
+      context: .
+      dockerfile: Service_a/Dockerfile
     container_name: service_a
     volumes:
       - "C:/Users/user/Downloads/podcasts/podcasts:/podcasts"
+      - "./tweet_podcasts:/app/tweet_podcasts"
     environment:
       PYTHONUNBUFFERED: 1
-      PROJECT_DIR: ../tweet_podcasts
+      PROJECT_DIR: /app/tweet_podcasts
       SRC_PATH: /podcasts
       TOPIC_METADATA: metadata
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
@@ -20,13 +23,16 @@ services:
         condition: service_healthy
 
   service_b:
-    build: ./Service_b
+    build:
+      context: .
+      dockerfile: Service_b/Dockerfile
     container_name: service_b
     volumes:
       - "C:/Users/user/Downloads/podcasts/podcasts:/podcasts"
+      - "./tweet_podcasts:/app/tweet_podcasts"
     environment:
       PYTHONUNBUFFERED: 1
-      PROJECT_DIR: ../tweet_podcasts
+      PROJECT_DIR: /app/tweet_podcasts
       SRC_PATH: /podcasts
       MONGO_URI: mongodb://mongodb:27017
       MONGO_DB: muazzin

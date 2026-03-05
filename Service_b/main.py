@@ -3,7 +3,7 @@ from config import MetadataConfig
 from consumer import KafkaConsumer
 from copy_audio_file import LoadAudio
 from mongo_connection import MongoConfig
-from logger_menager import Logger
+from shards.logger_menager import Logger
 from elasticsearch_client import ElasticsearchClient
 
 

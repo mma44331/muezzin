@@ -1,10 +1,11 @@
 from orchestrator import Orchestrator
 from config import MetadataConfig
-from copy_audio_file import LoadAudio
 from get_metadata import GetMetadata
 from publish_kafka import PublishKafka
 from pathlib import Path
-from logger_menager import Logger
+from shards.logger_menager import Logger
+from shards.audio_utils import LoadAudio
+
 
 
 logger = Logger.get_logger(name="SERVICE_A",index="muezzin_metadata_a")

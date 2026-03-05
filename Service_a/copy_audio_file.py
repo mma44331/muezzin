@@ -21,7 +21,7 @@ class LoadAudio:
             for podcasts in source_path.iterdir():
                 if podcasts.is_file() and podcasts.suffix.lower() in valid_extensions:
                     shutil.copy2(podcasts,project_dir / podcasts.name)
-                self.logger.info("Copying of files completed successfully.")
+            self.logger.info("Copying of files completed successfully.")
             return project_dir
         except Exception as e:
             self.logger.error(f"Copying the files failed {e}")
