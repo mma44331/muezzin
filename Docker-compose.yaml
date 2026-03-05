@@ -4,7 +4,7 @@ services:
 
   service_a:
     build: ./Service_a
-    container_name: Service_a
+    container_name: service_a
     volumes:
       - "C:/Users/user/Downloads/podcasts/podcasts:/podcasts"
     environment:
@@ -17,6 +17,28 @@ services:
 
     depends_on:
       kafka:
+        condition: service_healthy
+
+  service_b:
+    build: ./Service_b
+    container_name: service_b
+    volumes:
+      - "C:/Users/user/Downloads/podcasts/podcasts:/podcasts"
+    environment:
+      PYTHONUNBUFFERED: 1
+      PROJECT_DIR: ../tweet_podcasts
+      SRC_PATH: /podcasts
+      MONGO_URI: mongodb://mongodb:27017
+      MONGO_DB: muazzin
+      TOPIC_METADATA: metadata
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      HOST_ELASTICSEARCH: http://elasticsearch:9200
+      INDEX_NAME: metadata
+
+    depends_on:
+      kafka:
+        condition: service_healthy
+      elasticsearch:
         condition: service_healthy
 
 
@@ -44,6 +66,17 @@ services:
         retries: 10
         start_period: 20s
 
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:9.3.0
+    container_name: kibana
+    ports:
+      - "5601:5601"
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
 
   kafka:
     image: confluentinc/cp-kafka:7.8.3

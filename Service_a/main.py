@@ -4,10 +4,10 @@ from copy_audio_file import LoadAudio
 from get_metadata import GetMetadata
 from publish_kafka import PublishKafka
 from pathlib import Path
-from Service_a.logger_menager import Logger
+from logger_menager import Logger
 
 
-logger = Logger.get_logger(name="SERVICE_A",index="muezzin_metadata")
+logger = Logger.get_logger(name="SERVICE_A",index="muezzin_metadata_a")
 
 config = MetadataConfig()
 load_audio = LoadAudio(config.source_path,config.project_dir,logger)
