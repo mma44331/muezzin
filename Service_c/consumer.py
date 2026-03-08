@@ -21,7 +21,7 @@ class KafkaConsumer:
         return res.hexdigest()
 
 
-    def start(self,to_elastic,to_mongo):
+    def start(self,extract_text,to_elasticsearch):
         self.consumer.subscribe([self.topic_name])
         self.logger.info(f"Subscribed to topic: {self.topic_name}")
         while True:
@@ -36,7 +36,9 @@ class KafkaConsumer:
             msg = json.loads(msg.value().decode('utf-8'))
             res = self.create_unique_id(msg)
             msg['id'] = res
-            to_elastic(msg,msg['id'])
-            to_mongo(Path(msg['path']),msg['id'])
+            text = extract_text(msg['path'])
+            msg['text'] = text
+            to_elasticsearch(msg)
+            self.logger.info(msg)
 
 

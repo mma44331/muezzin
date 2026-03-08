@@ -48,6 +48,32 @@ services:
         condition: service_healthy
 
 
+  service_c:
+    build:
+      context: .
+      dockerfile: Service_c/Dockerfile
+    container_name: service_c
+    volumes:
+      - "C:/Users/user/Downloads/podcasts/podcasts:/podcasts"
+      - "./tweet_podcasts:/app/tweet_podcasts"
+    environment:
+      PYTHONUNBUFFERED: 1
+      PROJECT_DIR: /app/tweet_podcasts
+      SRC_PATH: /podcasts
+      MONGO_URI: mongodb://mongodb:27017
+      MONGO_DB: muazzin
+      TOPIC_METADATA: metadata
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      HOST_ELASTICSEARCH: http://elasticsearch:9200
+      INDEX_NAME: metadata
+
+    depends_on:
+      kafka:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+
   elasticsearch:
       image: docker.elastic.co/elasticsearch/elasticsearch:9.3.0
       container_name: elasticsearch

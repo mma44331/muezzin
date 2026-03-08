@@ -1,25 +1,22 @@
 from pathlib import Path
+from transcription import Transcription
 from config import MetadataConfig
 from consumer import KafkaConsumer
-from copy_audio_file import LoadAudio
-from mongo_connection import MongoConfig
 from shards.logger_menager import Logger
 from elasticsearch_client import ElasticsearchClient
 
 
-group_id = 'metadata_b'
-logger = Logger.get_logger(name="SERVICE_B",index="muezzin_metadata_b")
+group_id = 'metadata_c'
+logger = Logger.get_logger(name="SERVICE_C",index="muezzin_metadata_c")
 config = MetadataConfig()
-copy = LoadAudio(config.source_path,config.project_dir,logger)
-mongo = MongoConfig(logger)
+transcription = Transcription(logger)
 consumer = KafkaConsumer(config.bootstrap_servers,config.topic_metadata,group_id,logger)
 elasticsearch = ElasticsearchClient(config.es,config.index_name,logger)
 
 
 
 def main():
-    copy.copy_audio_file(Path(config.source_path), Path(config.project_dir))
-    consumer.start(elasticsearch.upsert,mongo.send)
+    consumer.start(transcription.extract_text,elasticsearch.upsert)
 
 
 if __name__ == "__main__":

@@ -14,7 +14,7 @@ class Orchestrator:
             for file_path in folder.iterdir():
                 if file_path.is_file():
                     res = self.g_metadata.get_metadata(file_path)
-                    res['path'] = f"{self.config.project_dir}/{res['name']}"
+                    res['path'] = str(Path(self.config.project_dir) / res['name'])
                     self.logger.info(res)
                     self.publisher.send_to_kafka(res)
                     self.logger.info(f"sending to kafka event audio: {res['name']}")
