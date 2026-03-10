@@ -21,6 +21,8 @@ services:
     depends_on:
       kafka:
         condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
 
   service_b:
     build:
@@ -63,6 +65,7 @@ services:
       MONGO_URI: mongodb://mongodb:27017
       MONGO_DB: muazzin
       TOPIC_METADATA: metadata
+      TOPIC_TRANSCRIPTION: transcription
       KAFKA_BOOTSTRAP_SERVERS: kafka:9092
       HOST_ELASTICSEARCH: http://elasticsearch:9200
       INDEX_NAME: metadata
@@ -72,6 +75,38 @@ services:
         condition: service_healthy
       elasticsearch:
         condition: service_healthy
+
+
+  service_d:
+    build:
+      context: .
+      dockerfile: Service_d/Dockerfile
+    container_name: service_d
+    environment:
+      PYTHONUNBUFFERED: 1
+      TOPIC_TRANSCRIPTION: transcription
+      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      HOST_ELASTICSEARCH: http://elasticsearch:9200
+      INDEX_NAME: metadata
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
+  service_e:
+    build:
+      context: .
+      dockerfile: Service_e/Dockerfile
+    container_name: service_e
+    ports:
+      - "8000:8000"
+    environment:
+      PYTHONUNBUFFERED: 1
+      HOST_ELASTICSEARCH: http://elasticsearch:9200
+      INDEX_NAME: metadata
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
 
 
   elasticsearch:

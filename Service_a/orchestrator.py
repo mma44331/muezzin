@@ -17,6 +17,5 @@ class Orchestrator:
                     res['path'] = str(Path(self.config.project_dir) / res['name'])
                     self.logger.info(res)
                     self.publisher.send_to_kafka(res)
-                    self.logger.info(f"sending to kafka event audio: {res['name']}")
         except Exception as e:
             self.logger.error(f"Failed to send to kafka: {e}")

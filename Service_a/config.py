@@ -12,7 +12,6 @@ class MetadataConfig:
         self.topic_metadata = os.getenv('TOPIC_METADATA', 'metadata')
         self.source_path = os.getenv("SRC_PATH", r"C:\Users\user\Downloads\podcasts\podcasts")
         self.project_dir = os.getenv("PROJECT_DIR", BASE_DIR / "stweet_podcasts")
-        self.es = Elasticsearch(os.getenv('HOST_ELASTICSEARCH','http://localhost:9200'),basic_auth=("elastic", "JcLN00crDrsRsawPFRM*"),verify_certs=False)
         self._validate()
 
 

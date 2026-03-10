@@ -14,14 +14,10 @@ class KafkaConsumer:
         self.group_id = group_id
         self.logger = logger
 
-    def create_unique_id(self,document):
-        doc = json.dumps(document,sort_keys=True).encode()
-        res = hashlib.sha256(doc)
-        self.logger.info('UID creation successful')
-        return res.hexdigest()
 
 
-    def start(self,extract_text,to_elasticsearch,to_kafka):
+
+    def start(self,manage_elastic,menage_calculation):
         self.consumer.subscribe([self.topic_name])
         self.logger.info(f"Subscribed to topic: {self.topic_name}")
         while True:
@@ -34,12 +30,7 @@ class KafkaConsumer:
                     self.logger.error(f"Consumer error: {msg.error()}")
                     continue
             msg = json.loads(msg.value().decode('utf-8'))
-            res = self.create_unique_id(msg)
-            msg['id'] = res
-            text = extract_text(msg['path'])
-            msg['text'] = text
-            to_elasticsearch(msg)
-            to_kafka(msg)
-            self.logger.info(msg)
+            manage_elastic(menage_calculation,msg)
+
 
 
