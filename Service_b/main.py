@@ -1,9 +1,9 @@
 from pathlib import Path
 from config import MetadataConfig
 from consumer import KafkaConsumer
-from copy_audio_file import LoadAudio
 from mongo_connection import MongoConfig
 from shards.logger_menager import Logger
+from shards.audio_utils import LoadAudio
 from elasticsearch_client import ElasticsearchClient
 
 

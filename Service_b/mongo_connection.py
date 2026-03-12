@@ -1,6 +1,5 @@
 import os
 import gridfs
-import requests
 from pathlib import Path
 from dotenv import load_dotenv
 from pymongo import MongoClient
@@ -20,11 +19,6 @@ class MongoConfig:
     def _validate(self):
         if not self.mongo_uri:
             raise ValueError(f"Invalid MONGO_URI: {self.mongo_uri}. Must start with 'mongodb://'")
-
-    # def get_connection(self):
-    #     db = self.mongo_uri[self.db_name]
-    #     coll = db[self.collection_name]
-    #     return coll
 
 
     def send(self, file_path:Path, id):

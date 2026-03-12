@@ -8,7 +8,6 @@ services:
       dockerfile: Service_a/Dockerfile
     container_name: service_a
     volumes:
-      - "C:/Users/user/Downloads/podcasts/podcasts:/podcasts"
       - "./tweet_podcasts:/app/tweet_podcasts"
     environment:
       PYTHONUNBUFFERED: 1
@@ -30,7 +29,6 @@ services:
       dockerfile: Service_b/Dockerfile
     container_name: service_b
     volumes:
-      - "C:/Users/user/Downloads/podcasts/podcasts:/podcasts"
       - "./tweet_podcasts:/app/tweet_podcasts"
     environment:
       PYTHONUNBUFFERED: 1
@@ -56,7 +54,6 @@ services:
       dockerfile: Service_c/Dockerfile
     container_name: service_c
     volumes:
-      - "C:/Users/user/Downloads/podcasts/podcasts:/podcasts"
       - "./tweet_podcasts:/app/tweet_podcasts"
     environment:
       PYTHONUNBUFFERED: 1
